@@ -72,9 +72,10 @@ public class Card {
 
     }
 
+    @Override
     public String toString(){
 
-        //Do AI research to see if there's a more efficient way.
+        /*Here was my initial code (this is commented out because I changed it after using Gemini as required by the assignment):
 
         String left = "";
         String middle = "of";
@@ -109,5 +110,13 @@ public class Card {
 
     }
 
+    */
+
+
+    String left = rankName[this.getRank()];
+    String right = suitName[this.getSuit()];
+    return left + " of " + right;
+
+    }
 
 }
