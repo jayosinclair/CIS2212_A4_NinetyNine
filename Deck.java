@@ -1,3 +1,25 @@
+/*
+
+The Deck class is responsible for managing a collection of playing cards. Here's what it needs to
+do:
+• Allow the creation of a deck containing one or more standard 52-card sets. The number
+of decks should be passed as a parameter to the constructor.
+• Store the cards using an ArrayList, which simplifies card management.
+• Shuffle the cards after they’ve been added to the deck. This can be done by repeatedly
+swapping pairs of cards at random—for example, performing 1,000 random swaps will
+achieve a good shuffle.
+AI Tip: Explore the Collections.swap method to help with this.
+• Provide a method to get the next card from the deck. Return null if the deck is empty.
+AI Tip: Do some research to see if it is more efficient to remove the card from the
+beginning or the end of the ArrayList. Choose the most efficient method.
+• Include a method to return the current number of cards remaining in the deck.
+
+*/
+
+
+
+
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -10,6 +32,9 @@ public class Deck {
 
     //TODO: Declare instance variables to hold the cards and the number 
     //      of packs of cards in the deck.
+
+    int numPacks;
+
 
 
     //TODO: Write a constructor that receives the number of packs of cards to put in the deck.

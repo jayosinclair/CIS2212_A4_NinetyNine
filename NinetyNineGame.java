@@ -1,3 +1,14 @@
+/*
+
+The NinetyNineGame class manages the overall gameplay. To complete the game, follow
+the “TODO” instructions within the NinetyNineGame.java file located in the starter
+project folder.
+
+*/
+
+
+
+
 import java.util.Scanner;
 
 public class NinetyNineGame {
