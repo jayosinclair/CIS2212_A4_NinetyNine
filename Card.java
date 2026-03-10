@@ -36,7 +36,6 @@ public class Card {
     private int cardID;
     private int suit;
     private int rank;
-    private String stdName;
 
     public Card (int id){
 
