@@ -33,29 +33,14 @@ public class Card {
 
     private final int NUM_CARDS_PER_SUIT = 13; //I thought about getting rid of this and just using rankName.length, but I don't know if that's a good idea. 
     // I think it's easier to understand from a readability standpoint to just have a constant, but there are now two sources of truth to maintain...
-    private int cardID;
+
     private int suit;
     private int rank;
 
-    public Card (int id){
+    public Card (int cardID){
 
-        cardID = id; //I elected to keep the cardID as an instance variable to use it in breaking out setRank and setSuit methods 
-                     //to make it more readable and not just perform calculations here for suit and rank using the parameter variable id.
-        suit = -1;       
-        rank = -1;
-        stdName = "";
-
-    }
-
-    public void setRank(){
-
+        suit = cardID / NUM_CARDS_PER_SUIT; //Integer division will get the suit.     
         rank = cardID % NUM_CARDS_PER_SUIT; //The repeating pattern of ranks for each suit is like hours on a clock. 
-
-    }
-
-    public void setSuit(){
-
-        suit = cardID / NUM_CARDS_PER_SUIT; //Integer division will get the suit.
 
     }
 
