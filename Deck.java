@@ -109,7 +109,7 @@ public class Deck {
    
    */
 
-    public Card getNextCard(){
+    public Card drawCard(){
 
         if (cardDeck.isEmpty()){
 

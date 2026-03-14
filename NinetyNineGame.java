@@ -32,6 +32,9 @@ public class NinetyNineGame {
         getNames();
 
         //TODO: Create a Deck of Cards using the number of packs based on the number of players.
+
+        myDeck = new Deck(this.calcPackCount());
+
         
         playGame();
     }
@@ -59,13 +62,45 @@ public class NinetyNineGame {
         System.out.println("How many people are playing? " );
         contestants = input.nextInt();
 
+        players = new Player[contestants];
+
         for (int i = 0; i < contestants; i++){
 
             System.out.println("Player " + (i+1) + ", enter your name: ");
             
-            players[i].setName(input.next()); //FIXME - ensure players objects are instantiated correctly.
+            players[i] = new Player(input.next());
 
         }
+
+    }
+
+
+    private int calcPackCount(){
+
+        //For every 4 players, add a deck
+
+        int packCount = -1;
+
+        if (contestants < 2){ //Need at least two players to play.
+
+            return packCount;
+
+        }
+
+        else if (contestants <= 4){
+
+            packCount = 1;
+
+        }
+
+
+        else {
+
+            packCount = contestants / 4;
+
+        }
+
+        return packCount;
 
     }
 
@@ -89,8 +124,14 @@ public class NinetyNineGame {
     //TODO: Deal the cards to start the game.
     private void dealHands() {
 
-        for (i = 0; i < contestants; ++i) { //Enhanced for loop - Ch.8, page 47
-            myDeck.add();
+        for (int i = 0; i < contestants; ++i) { 
+
+            for (int j = 0; j < CARDS_IN_HAND; j++){
+
+                players[i].addCard(myDeck.drawCard());
+
+            }
+
         }
 
     }
@@ -98,10 +139,36 @@ public class NinetyNineGame {
     //TODO: Display the number of cards in the deck, the current game total, and the player's hand.
     private void displayTurnInfo() {
 
+        System.out.println("There are " + myDeck.getCurrentCardCount() + " cards in the deck. The current game total is: " + gameTotal);
+        System.out.println(players[currentPlayer].getName() + ", it's your turn. Here is your hand:\n");
+        
+        for (int i = 0; i < players[currentPlayer].getCurrentCardCount(); i++){
+
+            System.out.print("\t" + (i + 1) + ") " + players[currentPlayer].getCard(i).toString()); //FIXME: Need to ensure the toString part works.
+
+        }
+
     }
 
    //TODO: Ask the user which card to play.  Then modify the game total based on the card played.
    private void playCard() {
 
+        int currentSelection = -1;
+
+        System.out.println("Enter the number of the card you wish to play: ");
+        currentSelection = input.nextInt();
+
+        while (currentSelection < 1 || currentSelection > players[currentPlayer].getCurrentCardCount()){ //FIXME: Check this logical or
+
+            System.out.println("That number is out of range. Try again: ");
+            currentSelection = input.nextInt();
+
+        }
+
+        currentSelection--; //Need to stay on 0-based number for the computer, so subtract 1 from what the human entered.
+
     }
+
+
+
 }

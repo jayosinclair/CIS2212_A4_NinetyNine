@@ -16,16 +16,16 @@ A player object needs the following behaviors:
 //TODO: Complete the Player class according to the specifications.
 import java.util.ArrayList;
 
-public class Player{
+public class Player {
 
     private String name;
-    private ArrayList<Card> hand = new ArrayList<Card>();
+    private ArrayList<Card> hand;
 
 
-
-    public void setName(String playerName){
+    public Player(String playerName){
 
         this.name = playerName;
+        this.hand = new ArrayList<Card>();
 
     }
 
