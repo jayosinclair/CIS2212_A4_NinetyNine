@@ -56,6 +56,17 @@ public class NinetyNineGame {
     //TODO: Ask how many people are playing, then get the names and create the Player objects.
     private void getNames() {
 
+        System.out.println("How many people are playing? " );
+        contestants = input.nextInt();
+
+        for (int i = 0; i < contestants; i++){
+
+            System.out.println("Player " + (i+1) + ", enter your name: ");
+            
+            players[i].setName(input.next()); //FIXME - ensure players objects are instantiated correctly.
+
+        }
+
     }
 
     private void playGame() {
@@ -77,6 +88,10 @@ public class NinetyNineGame {
 
     //TODO: Deal the cards to start the game.
     private void dealHands() {
+
+        for (i = 0; i < contestants; ++i) { //Enhanced for loop - Ch.8, page 47
+            myDeck.add();
+        }
 
     }
 

@@ -109,8 +109,7 @@ public class Deck {
    
    */
 
-    public Card getNextCard(){ //Return type needs to be wrapper Integer in order to return null.
-                                  //I learned this with a google search for null return type.
+    public Card getNextCard(){
 
         if (cardDeck.isEmpty()){
 

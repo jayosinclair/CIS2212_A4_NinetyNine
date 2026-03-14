@@ -16,7 +16,76 @@ A player object needs the following behaviors:
 //TODO: Complete the Player class according to the specifications.
 import java.util.ArrayList;
 
+public class Player{
 
+    private String name;
+    private ArrayList<Card> hand = new ArrayList<Card>();
+
+
+
+    public void setName(String playerName){
+
+        this.name = playerName;
+
+    }
+
+
+    public String getName(){
+
+        return this.name;
+
+    }
+
+
+    public Card getCard(int index){
+
+        if (hand.isEmpty()){
+
+            return null;
+
+        }
+
+        else{
+
+            return hand.get(index);
+
+        }
+
+    }
+
+
+    public Card playCard(int index){
+
+        if (hand.isEmpty()){
+
+            return null;
+
+        }
+
+        else{
+
+            return hand.remove(index);
+
+        }
+
+    }
+
+
+    public void addCard(Card someCard){
+
+        hand.add(someCard);
+
+    }
+
+
+    public int getCurrentCardCount(){
+
+        return hand.size();
+
+    }
+
+
+}
 
 
 
