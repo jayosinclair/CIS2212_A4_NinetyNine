@@ -95,7 +95,7 @@ public class NinetyNineGame {
 
     private int calcPackCount(){
 
-        //For every 4 players, add a deck. This is before looking at Gemini for a better way.
+        //For every 4 players, add a deck.
 
         int packCount = -1;
 
@@ -105,18 +105,10 @@ public class NinetyNineGame {
 
         }
 
-        else if (contestants <= 4){
+        //I used Gemini here per assignment instructions to reach the formula of (n + (k - 1)) / k  where k is the group size (4).
+        //Previous logic I wrote myself is in previous commits in GitHub repo. See Word doc with assignment for what I learned here.
 
-            packCount = 1;
-
-        }
-
-
-        else {
-
-            packCount = (contestants / 4) + 1;            
-
-        }
+        packCount = (contestants + 3) / 4;
 
         return packCount;
 
@@ -308,6 +300,5 @@ public class NinetyNineGame {
          return addPoints;
 
     }
-
 
 }
