@@ -12,17 +12,11 @@ and use arrays and ArrayLists to solve a problem.*/
 
 //**********************************************************************************************************************
 
+/**
 
-/*
-
-The NinetyNineGame class manages the overall gameplay. To complete the game, follow
-the “TODO” instructions within the NinetyNineGame.java file located in the starter
-project folder.
+The NinetyNineGame class manages the overall gameplay.
 
 */
-
-
-
 
 import java.util.Scanner;
 
@@ -46,7 +40,7 @@ public class NinetyNineGame {
         displayGreeting();
         getNames();
 
-        //TODO: Create a Deck of Cards using the number of packs based on the number of players.
+        //Create a Deck of Cards using the number of packs based on the number of players.
 
         myDeck = new Deck(calcPackCount());
         
@@ -70,7 +64,7 @@ public class NinetyNineGame {
         System.out.println(msg);
     }
 
-    //TODO: Ask how many people are playing, then get the names and create the Player objects.
+    //Ask how many people are playing, then get the names and create the Player objects.
     private void getNames() {
 
 
@@ -90,7 +84,7 @@ public class NinetyNineGame {
 
         for (int i = 0; i < contestants; i++){
 
-            System.out.print("Player " + (i+1) + ", enter your name: ");
+            System.out.print("Player " + (i + 1) + ", enter your name: ");
             
             players[i] = new Player(input.next());
 
@@ -101,13 +95,13 @@ public class NinetyNineGame {
 
     private int calcPackCount(){
 
-        //For every 4 players, add a deck
+        //For every 4 players, add a deck. This is before looking at Gemini for a better way.
 
         int packCount = -1;
 
         if (contestants < 2){ //Need at least two players to play.
 
-            return packCount;
+            return packCount; //I just return -1 for this point in the class... Shouldn't be able to get to this point, though.
 
         }
 
@@ -145,7 +139,7 @@ public class NinetyNineGame {
         System.out.println("\nGAME OVER!  Sorry " + players[currentPlayer].getName() + ", but you lost.");
     }
 
-    //TODO: Deal the cards to start the game.
+    //Deal the cards to start the game.
     private void dealHands() {
 
         for (int i = 0; i < contestants; ++i) { 
@@ -160,10 +154,10 @@ public class NinetyNineGame {
 
     }
 
-    //TODO: Display the number of cards in the deck, the current game total, and the player's hand.
+    //Display the number of cards in the deck, the current game total, and the player's hand.
     private void displayTurnInfo() {
 
-        System.out.println("\n\nThere are " + myDeck.getCurrentCardCount() + " cards in the deck. The current game total is: " + gameTotal);
+        System.out.println("\n\nThere are " + myDeck.getCurrentCardCount() + " cards in the deck. The current game total is: " + this.gameTotal);
         System.out.println("\n" + players[currentPlayer].getName() + ", it's your turn. Here is your hand:\n");
         
         for (int i = 0; i < players[currentPlayer].getCurrentCardCount(); i++){
@@ -174,7 +168,7 @@ public class NinetyNineGame {
 
     }
 
-   //TODO: Ask the user which card to play.  Then modify the game total based on the card played.
+   //Ask the user which card to play.  Then modify the game total based on the card played.
    private void playCard() {
 
         int currentSelection = -1;
@@ -194,6 +188,8 @@ public class NinetyNineGame {
 
         playedCardValue = players[currentPlayer].getCard(currentSelection).getRank();
 
+        System.out.println("Rank: " + (playedCardValue + 1));
+
         //System.out.println("You played: " + (currentSelection + 1) + ", " + players[currentPlayer].getCard(currentSelection).toString());
 
         players[currentPlayer].playCard(currentSelection);
@@ -208,21 +204,23 @@ public class NinetyNineGame {
 
         */
 
-        updateGameTotal(playedCardValue);
+        updateGameTotal(this.gameTotal, playedCardValue);
 
 
    }
 
 
-    private void updateGameTotal(int lastPlayedValue){
-        
-        if (lastPlayedValue <= 5){
+    private void updateGameTotal(int previousGameTotal, int lastPlayedValue){
 
-            this.gameTotal = this.gameTotal + lastPlayedValue + 1;
+        lastPlayedValue += 1; //Keep in mind inbound lastPlayedValue is 0 indexed, so adjusting here...
+        
+        if (lastPlayedValue <= 6){ 
+
+            this.gameTotal = this.gameTotal + lastPlayedValue;
 
         }
 
-        else if (lastPlayedValue == 6){
+        else if (lastPlayedValue == 7){
 
             if (this.gameTotal == 99){
 
@@ -238,19 +236,19 @@ public class NinetyNineGame {
 
         }
 
-        else if (lastPlayedValue == 7){
-
-            this.gameTotal = this.gameTotal + lastPlayedValue + 1;
-
-        }
-
         else if (lastPlayedValue == 8){
 
-            this.gameTotal += 0;
+            this.gameTotal = this.gameTotal + lastPlayedValue;
 
         }
 
         else if (lastPlayedValue == 9){
+
+            this.gameTotal += 0; //Does nothing, but put this here in case rule ever changes...
+
+        }
+
+        else if (lastPlayedValue == 10){
 
             this.gameTotal -= 10;
 
@@ -258,42 +256,50 @@ public class NinetyNineGame {
 
         else if (lastPlayedValue >= 10){
 
-            this.gameTotal  = this.gameTotal + lastPlayedValue + 1;
+            this.gameTotal  = this.gameTotal + lastPlayedValue;
 
         }
 
-        if (checkThresholds(lastPlayedValue, this.gameTotal)){
-            this.gameTotal += 5;
+        if (checkThresholds(previousGameTotal, this.gameTotal)){
             System.out.println("Threshold crossed!");
+            System.out.println("Previous Value: " + previousGameTotal);
+            System.out.println("Value Being Played: " + lastPlayedValue);
+            System.out.println("Current Value:" + this.gameTotal);
+            this.gameTotal += 5;
+            System.out.println("+ 5 = New Game Total: " + this.gameTotal);
         }
         
 
     }
 
-    private static boolean checkThresholds(int previousValue, int currentValue){
+    private boolean checkThresholds(int previousValue, int currentValue){
 
         boolean addPoints = false;
-        int threshold[] = {33, 55, 77}; //Perfect array
+        final int THRESHOLD1 = 33;
+        final int THRESHOLD2 = 55;
+        final int THRESHOLD3 = 77;
+
+
+        int threshold[] = {THRESHOLD1, THRESHOLD2, THRESHOLD3}; //Perfect array
   
-        // if start <= threshold and end >= threshold + 1, then flag is tripped
-        // if start >= threshold + 1 and end <= threshold, then flag is tripped
-
-        //-----------------------
-
-        // if start <= 33 and end >= 34, then flag is tripped
-        // if start >= 34 and end <= 33, then flag is tripped
+        // if start <= 33 and end >= 34, then flag is tripped... etc
+        // if start >= 34 and end <= 33, then flag is tripped... etc
 
         for (int i = 0; i < threshold.length; i++){
 
-            if (previousValue <= threshold[i] && currentValue >= threshold[i] + 1){
+            if ((!addPoints) && (previousValue <= threshold[i]) && (currentValue >= (threshold[i] + 1))){
 
                 addPoints = true;
+
+                System.out.println("V1");
 
             }
 
-            if (previousValue >= threshold[i] + 1 && currentValue <= threshold[i]){
+            if ((!addPoints) && (previousValue >= (threshold[i] + 1)) && (currentValue <= threshold[i])){
 
                 addPoints = true;
+
+                System.out.println("V2");
 
             }
 
