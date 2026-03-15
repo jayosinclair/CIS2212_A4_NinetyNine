@@ -33,8 +33,7 @@ public class NinetyNineGame {
 
         //TODO: Create a Deck of Cards using the number of packs based on the number of players.
 
-        myDeck = new Deck(this.calcPackCount());
-
+        myDeck = new Deck(calcPackCount());
         
         playGame();
     }
@@ -96,9 +95,11 @@ public class NinetyNineGame {
 
         else {
 
-            packCount = contestants / 4;
+            packCount = (contestants / 4) + 1;            
 
         }
+
+        System.out.println("Pack count: " + packCount);
 
         return packCount;
 
@@ -144,7 +145,7 @@ public class NinetyNineGame {
         
         for (int i = 0; i < players[currentPlayer].getCurrentCardCount(); i++){
 
-            System.out.print("\t" + (i + 1) + ") " + players[currentPlayer].getCard(i).toString()); //FIXME: Need to ensure the toString part works.
+            System.out.print("\t" + (i + 1) + ") " + players[currentPlayer].getCard(i).toString());
 
         }
 
@@ -155,10 +156,10 @@ public class NinetyNineGame {
 
         int currentSelection = -1;
 
-        System.out.println("Enter the number of the card you wish to play: ");
+        System.out.println("\nEnter the number of the card you wish to play: ");
         currentSelection = input.nextInt();
 
-        while (currentSelection < 1 || currentSelection > players[currentPlayer].getCurrentCardCount()){ //FIXME: Check this logical or
+        while (currentSelection < 1 || currentSelection > players[currentPlayer].getCurrentCardCount()){
 
             System.out.println("That number is out of range. Try again: ");
             currentSelection = input.nextInt();
@@ -167,8 +168,76 @@ public class NinetyNineGame {
 
         currentSelection--; //Need to stay on 0-based number for the computer, so subtract 1 from what the human entered.
 
+        System.out.println("You played: " + (currentSelection + 1) + ", " + players[currentPlayer].getCard(currentSelection).toString());
+
+        players[currentPlayer].playCard(currentSelection);
+
+        /*System.out.println("\nRemaining Cards: \n");
+
+        for (int i = 0; i < players[currentPlayer].getCurrentCardCount(); i++){
+
+            System.out.println(players[currentPlayer].getCard(i).toString());
+
+        }
+
+        */
+
+        players[currentPlayer].addCard(myDeck.drawCard());
+
+        updateGameTotal(currentSelection);
+
+
+   }
+
+
+    private void updateGameTotal(int lastPlayedValue){
+
+        if (lastPlayedValue <= 5){
+
+            this.gameTotal += lastPlayedValue + 1;
+
+        }
+
+        else if (lastPlayedValue == 6){
+
+            if (this.gameTotal == 99){
+
+                this.gameTotal += 1;
+                
+            }
+
+            else {
+
+                this.gameTotal += 7;
+
+            }
+
+        }
+
+        else if (lastPlayedValue == 7){
+
+            this.gameTotal += (lastPlayedValue + 1);
+
+        }
+
+        else if (lastPlayedValue == 8){
+
+            this.gameTotal += 0;
+
+        }
+
+        else if (lastPlayedValue == 9){
+
+            this.gameTotal -= 10;
+
+        }
+
+        else if (lastPlayedValue >= 10){
+
+            this.gameTotal  += lastPlayedValue;
+
+        }
+
     }
-
-
 
 }
