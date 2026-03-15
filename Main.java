@@ -4,7 +4,7 @@
 //Due Date: March 20, 2026
 //Submitted: March 15, 2026
 
-/*This program is a version of the card game, Ninety Nine. Purpose: design and create classes, 
+/*This program is a version of the card game, Ninety Nine. Academic purpose: design and create classes, 
 and use arrays and ArrayLists to solve a problem.*/
 
 //Github repos for this project are at: https://github.com/jayosinclair/CIS2212_A4_NinetyNine.git
@@ -12,7 +12,10 @@ and use arrays and ArrayLists to solve a problem.*/
 
 //**********************************************************************************************************************
 
-
+/**
+ * The Main class is the container for the rest of the game. 
+ * It creates the NinetyNine game object and executes.
+ */
 public class Main {
     public static void main(String[] args) {
         // Create a new game object and call the go method.

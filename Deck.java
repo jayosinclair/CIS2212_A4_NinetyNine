@@ -12,24 +12,19 @@ and use arrays and ArrayLists to solve a problem.*/
 
 //**********************************************************************************************************************
 
-/*
-
-The Deck class is responsible for managing a collection of playing cards. Here's what it needs to
-do:
-• Allow the creation of a deck containing one or more standard 52-card sets. The number
-of decks should be passed as a parameter to the constructor.
-• Store the cards using an ArrayList, which simplifies card management.
-• Shuffle the cards after they’ve been added to the deck. This can be done by repeatedly
-swapping pairs of cards at random—for example, performing 1,000 random swaps will
-achieve a good shuffle.
-
-*/
-
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random; //needed to shuffle
+
+/**
+ * The Deck class is responsible for managing a collection of playing cards. Here's what it does:
+ * -Allows the creation of a deck containing one or more standard 52-card sets. The number
+ * of decks should be passed as a parameter to the constructor.
+ * -Stores the cards using an ArrayList, which simplifies card management.
+ * -Shuffles the cards after they’ve been added to the deck. This can be done by repeatedly
+ * swapping pairs of cards at random—for example, performing 1,000 random swaps will
+ * achieve a good shuffle.
+ */
 
 public class Deck {
     // Constants for a normal deck of playing cards.
@@ -38,16 +33,18 @@ public class Deck {
     private final int DECK_SIZE = SUITS * RANKS;
     private final int SHUFFLE_COUNT = 1000;
 
-    //TODO: Declare instance variables to hold the cards and the number 
-    //      of packs of cards in the deck.
+    //Instance variables to hold the cards and the number of packs of cards in the deck.
 
     ArrayList<Card> cardDeck;
     int numPacks;
 
 
-    //TODO: Write a constructor that receives the number of packs of cards to put in the deck.
-    //      The constructor should build the deck and then shuffle the cards.
-
+    /**
+     * The Deck constructor receives the number of packs of cards to put in the deck.
+     * The constructor builds the deck and then shuffles the cards.
+     * 
+     * @param numPacks
+     */
     public Deck(int numPacks){
 
         this.numPacks = numPacks;
@@ -57,12 +54,13 @@ public class Deck {
     }
 
 
-    //TODO: Write the method that builds the deck of cards.
-    //      Instantiate the ArrayList. Send the total number of cards to the constructor.
-    //      Use nested loops.  The outer loop counts through the number of packs.
-    //      The inner loop counts through the card numbers, from 0 to < DECK_SIZE.
-    //      Add a new Card to the list using the inner loop control variable.
-
+    /**
+     * Method buildDeck builds the deck of cards. Notes about this method:
+     * Instantiate the ArrayList. Send the total number of cards to the constructor.
+     * Use nested loops.  The outer loop counts through the number of packs.
+     * The inner loop counts through the card numbers, from 0 to < DECK_SIZE.
+     * Add a new Card to the list using the inner loop control variable.
+     */
     private void buildDeck() {
 
         cardDeck = new ArrayList<Card>(numPacks * DECK_SIZE);
@@ -79,7 +77,12 @@ public class Deck {
 
     }
 
-    //TODO: Write the method that shuffles the deck
+    
+    /**
+     * The shuffleDeck method shuffles the cards after they’ve been added to the deck. This is done by repeatedly
+        swapping pairs of cards at random—for example, performing 1,000 random swaps will
+        achieve a good shuffle. The shuffleDeck method uses the Collections.swap method to shuffle cards.
+     */
     private void shuffleDeck() {
 
         int index1 = -1;
@@ -87,8 +90,6 @@ public class Deck {
         int fullDeckSize = DECK_SIZE * this.numPacks;
         Random rand = new Random();
 
-
-        
         for (int i = 0; i < SHUFFLE_COUNT; i++){
 
             index1 = rand.nextInt(fullDeckSize);
@@ -97,32 +98,15 @@ public class Deck {
             Collections.swap(cardDeck, index1, index2);
 
         }
-        
-        
-        /*
-        
-        Shuffle the cards after they’ve been added to the deck. This can be done by repeatedly
-        swapping pairs of cards at random—for example, performing 1,000 random swaps will
-        achieve a good shuffle.
-
-        AI Tip: Explore the Collections.swap method to help with this.
-
-        */
 
     }
 
-    //TODO: Write the methods that implement the behaviors of a deck of cards.
-
-   /*
-   
-   Provide a method to get the next card from the deck. Return null if the deck is empty.
-    AI Tip: Do some research to see if it is more efficient to remove the card from the
-    beginning or the end of the ArrayList. Choose the most efficient method.
-
-    Include a method to return the current number of cards remaining in the deck.
-   
-   */
-
+    
+    /**
+     * The drawCard method removes the last card from the deck and returns it for use elsewhere.
+     * 
+     * @return
+     */
     public Card drawCard(){
 
         if (cardDeck.isEmpty()){
@@ -140,6 +124,11 @@ public class Deck {
     }
 
 
+    /**
+     * The getCurrentCardCount method gets the number of cards remaining in a deck.
+     * 
+     * @return
+     */
     public int getCurrentCardCount(){
 
         return cardDeck.size();

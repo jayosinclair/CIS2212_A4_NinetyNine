@@ -12,35 +12,16 @@ and use arrays and ArrayLists to solve a problem.*/
 
 //**********************************************************************************************************************
 
-
-
-//TODO: Complete the Card class according to the specifications.
-
-
 /*
 
-The Card class should store a card’s suit and rank. Its constructor receives an integer from 0 to
-51 and computes the suit and rank accordingly. (It isn’t necessary to keep the original number.)
-The Card class should be able to return:
-1. Its numeric suit and rank
-2. Its standard name, e.g., Ace of Clubs or Three of Hearts.
-AI Tip: Research how to solve this part using the toString method.
-
-A convenient way to create the standard names is to define String arrays for the rank and
-suit names, then use the numeric values as indices to retrieve the appropriate names. Each
-card does NOT need its own copies of these String arrays, so declare them in a way that all
-Card objects share the arrays.
+Suits (0–3): diamonds (0), clubs (1), hearts (2), spades (3)
+Ranks (0–12): ace (0), two (1), three (2), …, Jack (10), Queen (11), King (12)
 
 */
 
-
-/*
-
-• Suits (0–3): diamonds (0), clubs (1), hearts (2), spades (3)
-• Ranks (0–12): ace (0), two (1), three (2), …, Jack (10), Queen (11), King (12)
-
-*/
-
+/**
+ * The Card class manages getting info from a numeric representation of a number between 0 - 51 in a standard card pack/deck.
+ */
 public class Card {
     
     //Static member variables (perfect arrays in this case)
@@ -75,43 +56,8 @@ public class Card {
     @Override
     public String toString(){
 
-        /*Here was my initial code (this is commented out because I changed it after using Gemini as required by the assignment):
-
-        String left = "";
-        String middle = "of";
-        String right = "";
-        String composite = "";
-
-
-        for (int i = 0; i < rankName.length; i++){
-
-            if (i == this.getRank()){
-
-                left = rankName[i];
-
-            }
-
-        }
-
-
-        for (int i = 0; i < suitName.length; i++){
-
-            if (i == this.getSuit()){
-
-                right = suitName[i];
-
-            }
-
-        }
-
-        composite = left + " " + middle + " " + right;
-
-        return composite;
-
-    }
-
-    */
-
+    //Code below is result of using Gemini in accordance with assignment instructions. This is more efficient than
+    //my original code (in Word doc submittal/ previous commits in GitHub repo).
 
     String left = rankName[this.getRank()];
     String right = suitName[this.getSuit()];

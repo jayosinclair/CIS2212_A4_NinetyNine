@@ -12,30 +12,21 @@ and use arrays and ArrayLists to solve a problem.*/
 
 //**********************************************************************************************************************
 
-/*
-
-The Player class has a name and a collection of cards, often referred to as the player's “hand”.
-Use an ArrayList to store the player’s cards.
-A player object needs the following behaviors:
-• Retrieve the player’s name.
-• Get a card from the hand using a specified index.
-• Play a card from the hand by removing it at a given index.
-• Add a card to the hand (provided as a parameter). Name the parameter someCard.
-• Return the current number of cards in the hand.
-
-*/
-
-
-
-//TODO: Complete the Player class according to the specifications.
 import java.util.ArrayList;
+
+/**
+ * The Player class manages the player's hand of cards.
+ */
 
 public class Player {
 
     private String name;
     private ArrayList<Card> hand;
 
-
+    /**
+     * The Player class constructor assigns a player name and creates a hand for that player.
+     * @param playerName
+     */
     public Player(String playerName){
 
         this.name = playerName;
@@ -44,6 +35,10 @@ public class Player {
     }
 
 
+    /**
+     * The getName method accesses the name instance variable.
+     * @return The player's name
+     */
     public String getName(){
 
         return this.name;
@@ -51,6 +46,11 @@ public class Player {
     }
 
 
+    /**
+     * The getCard method gets a card from the hand using a specified index, assuming hand is not empty.
+     * @param index
+     * @return
+     */
     public Card getCard(int index){
 
         if (hand.isEmpty()){
@@ -67,7 +67,11 @@ public class Player {
 
     }
 
-
+    /**
+     * The playCard method removes it from the hand and returns the value for use elsewhere.
+     * @param index
+     * @return
+     */
     public Card playCard(int index){
 
         if (hand.isEmpty()){
@@ -84,14 +88,20 @@ public class Player {
 
     }
 
-
+    /**
+     * The addCard method adds a new card to the hand.
+     * @param someCard A card from the deck to be added to the hand
+     */
     public void addCard(Card someCard){
 
         hand.add(someCard);
 
     }
 
-
+    /**
+     * The getCurrentCardCount method accesses the number of cards in the deck. Should be 5 unless accessed before adding a new card.
+     * @return
+     */
     public int getCurrentCardCount(){
 
         return hand.size();

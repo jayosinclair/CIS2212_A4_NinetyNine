@@ -12,16 +12,14 @@ and use arrays and ArrayLists to solve a problem.*/
 
 //**********************************************************************************************************************
 
-/**
-
-The NinetyNineGame class manages the overall gameplay.
-
-*/
-
 import java.util.Scanner;
 
+/**
+ * The NinetyNineGame class manages the overall gameplay.
+ */
+
 public class NinetyNineGame {
-    private Scanner input;
+    private Scanner input; //Style-wise, does it really matter what order I list variables vs constants vs objects like input?
 
     private final int CARDS_IN_HAND = 5;
     private final int GAME_OVER = 99;
@@ -36,6 +34,11 @@ public class NinetyNineGame {
         input = new Scanner(System.in);
     }
 
+
+    /**
+     * The go method calls other methods to display the rules, get player count and names of players, set up a
+     * card deck, and play the game.
+     */
     public void go() {
         displayGreeting();
         getNames();
@@ -47,6 +50,9 @@ public class NinetyNineGame {
         playGame();
     }
 
+    /**
+     * The displayGreeting method displays the game's rules.
+     */
     private void displayGreeting() {
         String msg = "\n\n\nGreetings!  This is the card game Ninety-Nine.  Here are the rules.\n\n" 
             + "Each player gets 5 cards.  In a turn, each player plays a card. The point value of the card is added to\n" 
@@ -64,7 +70,10 @@ public class NinetyNineGame {
         System.out.println(msg);
     }
 
-    //Ask how many people are playing, then get the names and create the Player objects.
+
+    /**
+     * The getNames method asks how many people are playing, then gets the names and creates Player objects.
+     */
     private void getNames() {
 
 
@@ -93,6 +102,13 @@ public class NinetyNineGame {
     }
 
 
+    /**
+     * 
+     * The calcPackCount method calculates how many packs are needed. For every 4 players a deck is needed for the
+     * game's master deck.
+     * 
+     * @return the number of packs to be used in the game
+     */
     private int calcPackCount(){
 
         //For every 4 players, add a deck.
@@ -101,7 +117,8 @@ public class NinetyNineGame {
 
         if (contestants < 2){ //Need at least two players to play.
 
-            return packCount; //I just return -1 for this point in the class... Shouldn't be able to get to this point, though.
+            return packCount; //I just return -1 for this point in the class... We haven't gotten to exceptions yet.
+                              //Program shouldn't be able to get to this point, though.
 
         }
 
@@ -114,6 +131,11 @@ public class NinetyNineGame {
 
     }
 
+
+    /**
+     * The playGame method is the game loop, and it calls various methods to deal cards to each player
+     * and manage each turn/score updates.
+     */
     private void playGame() {
 
         dealHands();
@@ -128,10 +150,13 @@ public class NinetyNineGame {
             players[currentPlayer].addCard(myDeck.drawCard());
         } while (gameTotal <= GAME_OVER);
 
-        System.out.println("\nGAME OVER!  Sorry " + players[currentPlayer].getName() + ", but you lost.");
+        System.out.println("\nGAME OVER!  Sorry " + players[currentPlayer].getName() + ", but you lost.\n\n");
     }
 
-    //Deal the cards to start the game.
+
+    /**
+     * The dealHands method deals cards to start the game.
+     */
     private void dealHands() {
 
         for (int i = 0; i < contestants; ++i) { 
@@ -146,7 +171,11 @@ public class NinetyNineGame {
 
     }
 
-    //Display the number of cards in the deck, the current game total, and the player's hand.
+    
+    /**
+     * The displayTurnInfo method gives a preamble with tallies for the turn. It displaysthe number of cards in the deck, 
+     * the current game total, and the player's hand.
+     */
     private void displayTurnInfo() {
 
         System.out.println("\n\nThere are " + myDeck.getCurrentCardCount() + " cards in the deck. The current game total is: " + this.gameTotal);
@@ -160,11 +189,13 @@ public class NinetyNineGame {
 
     }
 
-   //Ask the user which card to play.  Then modify the game total based on the card played.
+   /**
+    * The playCard method asks the user which card to play, and then modifies the game total based on the card played.
+    */
    private void playCard() {
 
         int currentSelection = -1;
-        int playedCardValue = -1;
+        int playedCard = -1;
 
         System.out.print("\n\nEnter the number of the card you wish to play: ");
         currentSelection = input.nextInt();
@@ -178,43 +209,49 @@ public class NinetyNineGame {
 
         currentSelection--; //Need to stay on 0-based number for the computer, so subtract 1 from what the human entered.
 
-        playedCardValue = players[currentPlayer].getCard(currentSelection).getRank();
-
-        System.out.println("Rank: " + (playedCardValue + 1));
-
-        //System.out.println("You played: " + (currentSelection + 1) + ", " + players[currentPlayer].getCard(currentSelection).toString());
+        playedCard = players[currentPlayer].getCard(currentSelection).getRank();
 
         players[currentPlayer].playCard(currentSelection);
 
-        /*System.out.println("\nRemaining Cards: \n");
-
-        for (int i = 0; i < players[currentPlayer].getCurrentCardCount(); i++){
-
-            System.out.println(players[currentPlayer].getCard(i).toString());
-
-        }
-
-        */
-
-        updateGameTotal(this.gameTotal, playedCardValue);
-
+        updateGameTotal(this.gameTotal, playedCard);
 
    }
 
 
-    private void updateGameTotal(int previousGameTotal, int lastPlayedValue){
+   /**
+    * The updateGameTotal method adds the card values to the total game point counter.
+    * It needs to know what the previous game total was (before playing a card), and it
+    * needs to know the last played card (zero-indexed). This method calls helper method
+    * checkThresholds to add additional points if a threshold is crossed by either adding
+    * or subtracting (the 10 card subtracts...).
+    * 
+    * @param previousGameTotal the game total before playing a card
+    * @param lastPlayed the card most recently played (to add to the game total in this method)
+    */
+    private void updateGameTotal(int previousGameTotal, int lastPlayed){
 
-        lastPlayedValue += 1; //Keep in mind inbound lastPlayedValue is 0 indexed, so adjusting here...
+        lastPlayed += 1; //Keep in mind inbound lastPlayedValue is 0 indexed, so adjusting here to make code easier to read...
         
-        if (lastPlayedValue <= 6){ 
+        if (lastPlayed < 1){
 
-            this.gameTotal = this.gameTotal + lastPlayedValue;
+            System.out.println("Error. Card does not exist."); //Not handling exceptions until we get there in class, but this shouldn't happen.
+
+        }
+        
+        else if (lastPlayed == 1){
+            this.gameTotal += 14; //Ace is worth 14, not 1.
+        }
+        
+        
+        else if (lastPlayed > 1 && lastPlayed <= 6){ 
+
+            this.gameTotal = this.gameTotal + lastPlayed;
 
         }
 
-        else if (lastPlayedValue == 7){
-
-            if (this.gameTotal == 99){
+        else if (lastPlayed == 7){ //Add 7, unless that would exceed 99...in which case it adds just 1.
+ 
+            if (this.gameTotal >= 98){
 
                 this.gameTotal += 1;
                 
@@ -228,42 +265,49 @@ public class NinetyNineGame {
 
         }
 
-        else if (lastPlayedValue == 8){
+        else if (lastPlayed == 8){
 
-            this.gameTotal = this.gameTotal + lastPlayedValue;
+            this.gameTotal = this.gameTotal + lastPlayed;
 
         }
 
-        else if (lastPlayedValue == 9){
+        else if (lastPlayed == 9){
 
             this.gameTotal += 0; //Does nothing, but put this here in case rule ever changes...
 
         }
 
-        else if (lastPlayedValue == 10){
+        else if (lastPlayed == 10){
 
             this.gameTotal -= 10;
 
         }
 
-        else if (lastPlayedValue >= 10){
+        else if (lastPlayed >= 10){
 
-            this.gameTotal  = this.gameTotal + lastPlayedValue;
+            this.gameTotal  = this.gameTotal + lastPlayed;
 
         }
 
         if (checkThresholds(previousGameTotal, this.gameTotal)){
-            System.out.println("Threshold crossed!");
-            System.out.println("Previous Value: " + previousGameTotal);
-            System.out.println("Value Being Played: " + lastPlayedValue);
-            System.out.println("Current Value:" + this.gameTotal);
+            System.out.println("\nTHRESHOLD CROSSED! Adding 5 more points...");
             this.gameTotal += 5;
-            System.out.println("+ 5 = New Game Total: " + this.gameTotal);
         }
         
 
     }
 
+
+    /**
+     * The checkThresholds method helps determine whether a threshold was crossed by either
+     * adding or subtracting card value. If the threshold is crossed in either direction,
+     * a boolean value of true is returned so another method can do something with the info.
+     * 
+     * 
+     * @param previousValue the game value before the play
+     * @param currentValue the game value after playing the card in a turn (but not including 5 pt increment)
+     * @return true value if a threshold is tripped so that info can be used elsewhere
+     */
     private boolean checkThresholds(int previousValue, int currentValue){
 
         boolean addPoints = false;
@@ -283,15 +327,11 @@ public class NinetyNineGame {
 
                 addPoints = true;
 
-                System.out.println("V1");
-
             }
 
             if ((!addPoints) && (previousValue >= (threshold[i] + 1)) && (currentValue <= threshold[i])){
 
                 addPoints = true;
-
-                System.out.println("V2");
 
             }
 
